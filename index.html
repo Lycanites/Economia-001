@@ -1,43 +1,67 @@
 <!doctype html>
 <html>
-  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+  <head>
+    <title>Economia RA - Actividad 001</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+  </head>
   <body style="margin: 0px; overflow: hidden">
-    <a-scene embedded arjs>
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
       <a-marker preset="hiro">
         <a-text
-          value="PROBLEMA ECONOMICO"
-          position="-1 1 0"
-          color="yellow"
+          value="FACTORES PRODUCTIVOS"
+          position="-1 1.5 0"
+          color="#EF2D5E"
+          width="4"
+          align="center"
         ></a-text>
-        <a-plane
-          position="0 0 0"
-          rotation="-90 0 0"
-          width="2"
-          height="1.5"
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Factors_of_Production.png/640px-Factors_of_Production.png"
+
+        <a-box
+          position="0 0.5 0"
+          material="color: orange; opacity: 0.8"
+          scale="1 1 1"
         >
-        </a-plane>
+          <a-text
+            value="TIERRA\nTRABAJO\nCAPITAL"
+            align="center"
+            position="0 0 0.6"
+            scale="0.5 0.5 0.5"
+          ></a-text>
+        </a-box>
+
         <a-text
-          value="Escasez + Necesidad = Eleccion"
-          position="-1 -1 0"
-          scale="0.5 0.5 0.5"
+          value="Escasez = Necesidad > Recursos"
+          position="0 -0.5 1"
+          align="center"
+          color="yellow"
+          width="3"
         ></a-text>
       </a-marker>
 
       <a-marker preset="kanji">
-        <a-box position="0 0.5 0" material="opacity: 0.5; color: blue;">
+        <a-cylinder
+          position="0 0.5 0"
+          radius="0.5"
+          height="1.5"
+          color="#4CC3D9"
+          opacity="0.7"
+          animation="property: rotation; to: 0 360 0; loop: true; dur: 5000"
+        >
           <a-text
-            value="CIENCIAS SOCIALES"
+            value="CIENCIAS\nSOCIALES"
             align="center"
-            position="0 0.6 0"
+            position="0 0.8 0"
+            color="white"
+            width="3"
           ></a-text>
-        </a-box>
+        </a-cylinder>
+
         <a-text
-          value="La Economia es una ciencia factica social"
-          position="-1 -0.5 0"
-          scale="0.4 0.4 0.4"
-          color="white"
+          value="La Economia es una ciencia\nFACTICA Y SOCIAL"
+          position="0 -0.8 1"
+          align="center"
+          color="#7BC8A4"
+          width="3"
         ></a-text>
       </a-marker>
 
