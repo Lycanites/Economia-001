@@ -2,35 +2,65 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>AR Economía Interactiva</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>AR Economía - HUD</title>
+
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
+
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+    </style>
   </head>
 
-  <body style="margin: 0; overflow: hidden">
+  <body>
     <a-scene embedded arjs>
       <a-marker preset="hiro">
-        <!-- Panel base -->
-        <a-box
-          position="0 0.5 0"
-          depth="0.1"
-          height="2"
-          width="3"
-          color="#0D1B2A"
-          animation="property: rotation; to: 0 360 0; loop: true; dur: 15000"
-        >
-        </a-box>
+        <!-- PANEL PRINCIPAL -->
+        <a-entity id="hudPanel" position="0 1 0">
+          <!-- Fondo holográfico -->
+          <a-plane
+            width="3.5"
+            height="2.2"
+            color="#0D1B2A"
+            opacity="0.85"
+            material="transparent: true"
+            animation="property: scale; from: 0 0 0; to: 1 1 1; dur: 800; easing: easeOutBack"
+          >
+          </a-plane>
 
-        <!-- Texto dinámico -->
-        <a-text
-          id="conceptText"
-          value="Cargando..."
-          position="-1.3 1 0.1"
-          width="2.5"
-          color="#E0E1DD"
-        >
-        </a-text>
+          <!-- Marco Neon -->
+          <a-plane
+            width="3.6"
+            height="2.3"
+            color="#00B4FF"
+            opacity="0.15"
+            material="transparent: true"
+          >
+          </a-plane>
+
+          <!-- Título -->
+          <a-text
+            id="titulo"
+            position="-1.5 0.7 0.01"
+            color="#00E5FF"
+            width="3"
+            value=""
+          >
+          </a-text>
+
+          <!-- Contenido -->
+          <a-text
+            id="contenido"
+            position="-1.5 0.2 0.01"
+            color="#FFFFFF"
+            width="3"
+            value=""
+          >
+          </a-text>
+        </a-entity>
       </a-marker>
 
       <a-entity camera></a-entity>
@@ -38,44 +68,47 @@
 
     <script>
       const conceptos = [
-        `POSITIVIDAD
-Auguste Comte (1830)
-Conocimiento basado en observacion y metodo cientifico.`,
-
-        `ECONOMIA POSITIVA
-J.N. Keynes (1891)
-Describe la economia sin juicios de valor.`,
-
-        `ECONOMIA NORMATIVA
-J.N. Keynes (1891)
-Explica como deberia funcionar la economia.`,
-
-        `MICROECONOMIA
-Alfred Marshall (1890)
-Estudia consumidores y empresas.`,
-
-        `MACROECONOMIA
-J.M. Keynes (1936)
-Analiza inflacion, PIB y desempleo.`,
-
-        `MODELO
-Leon Walras (1874)
-Representacion simplificada de la realidad.`,
-
-        `FLUJO CIRCULAR
-Francois Quesnay (1758)
-Circulacion de dinero y bienes.`,
+        {
+          titulo: "POSITIVIDAD",
+          contenido:
+            "Auguste Comte (1830)\nConocimiento basado en observacion y metodo cientifico.",
+        },
+        {
+          titulo: "ECONOMIA POSITIVA",
+          contenido:
+            "J.N. Keynes (1891)\nDescribe la economia sin juicios de valor.",
+        },
+        {
+          titulo: "ECONOMIA NORMATIVA",
+          contenido:
+            "J.N. Keynes (1891)\nExplica como deberia funcionar la economia.",
+        },
+        {
+          titulo: "MICROECONOMIA",
+          contenido: "Alfred Marshall (1890)\nEstudia consumidores y empresas.",
+        },
+        {
+          titulo: "MACROECONOMIA",
+          contenido: "J.M. Keynes (1936)\nInflacion, PIB y desempleo.",
+        },
+        {
+          titulo: "FLUJO CIRCULAR",
+          contenido: "Francois Quesnay (1758)\nCirculacion de dinero y bienes.",
+        },
       ];
 
       let indice = 0;
-      const texto = document.querySelector("#conceptText");
+
+      const titulo = document.querySelector("#titulo");
+      const contenido = document.querySelector("#contenido");
 
       function cambiarConcepto() {
-        texto.setAttribute("value", conceptos[indice]);
+        titulo.setAttribute("value", conceptos[indice].titulo);
+        contenido.setAttribute("value", conceptos[indice].contenido);
         indice = (indice + 1) % conceptos.length;
       }
 
-      setInterval(cambiarConcepto, 6000);
+      setInterval(cambiarConcepto, 7000);
       cambiarConcepto();
     </script>
   </body>
