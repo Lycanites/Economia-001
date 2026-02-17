@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>AR Economía Interactiva</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
+  </head>
+
+  <body style="margin: 0; overflow: hidden">
+    <a-scene embedded arjs>
+      <a-marker preset="hiro">
+        <!-- Panel base -->
+        <a-box
+          position="0 0.5 0"
+          depth="0.1"
+          height="2"
+          width="3"
+          color="#0D1B2A"
+          animation="property: rotation; to: 0 360 0; loop: true; dur: 15000"
+        >
+        </a-box>
+
+        <!-- Texto dinámico -->
+        <a-text
+          id="conceptText"
+          value="Cargando..."
+          position="-1.3 1 0.1"
+          width="2.5"
+          color="#E0E1DD"
+        >
+        </a-text>
+      </a-marker>
+
+      <a-entity camera></a-entity>
+    </a-scene>
+
+    <script>
+      const conceptos = [
+        `POSITIVIDAD
+Auguste Comte (1830)
+Conocimiento basado en observacion y metodo cientifico.`,
+
+        `ECONOMIA POSITIVA
+J.N. Keynes (1891)
+Describe la economia sin juicios de valor.`,
+
+        `ECONOMIA NORMATIVA
+J.N. Keynes (1891)
+Explica como deberia funcionar la economia.`,
+
+        `MICROECONOMIA
+Alfred Marshall (1890)
+Estudia consumidores y empresas.`,
+
+        `MACROECONOMIA
+J.M. Keynes (1936)
+Analiza inflacion, PIB y desempleo.`,
+
+        `MODELO
+Leon Walras (1874)
+Representacion simplificada de la realidad.`,
+
+        `FLUJO CIRCULAR
+Francois Quesnay (1758)
+Circulacion de dinero y bienes.`,
+      ];
+
+      let indice = 0;
+      const texto = document.querySelector("#conceptText");
+
+      function cambiarConcepto() {
+        texto.setAttribute("value", conceptos[indice]);
+        indice = (indice + 1) % conceptos.length;
+      }
+
+      setInterval(cambiarConcepto, 6000);
+      cambiarConcepto();
+    </script>
+  </body>
+</html>
