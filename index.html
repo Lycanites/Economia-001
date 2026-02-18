@@ -4,10 +4,7 @@
     <meta charset="utf-8" />
     <title>Logus AR Experience</title>
 
-    <!-- A-Frame -->
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
-
-    <!-- AR.js con marcador -->
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,65 +12,66 @@
 
   <body style="margin: 0; overflow: hidden">
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
-      <!-- Marcador HIRO -->
       <a-marker preset="hiro">
-        <!-- Modelo principal -->
-        <a-entity
-          id="economia"
-          rotation="-90 0 0"
-          animation="property: rotation; to: -90 360 0; loop: true; dur: 15000; easing: linear"
-        >
-          <!-- Círculo central -->
+        <!-- CONTENEDOR SIN ANIMACION -->
+        <a-entity rotation="-90 0 0">
+          <!-- CIRCULO -->
           <a-torus color="#00ffff" radius="0.8" radius-tubular="0.05">
           </a-torus>
 
-          <!-- Texto principal (clickeable) -->
-          <a-text
-            id="titulo"
-            value="Flujo Circular"
-            position="0 1 0"
-            align="center"
-            color="#ffffff"
-            class="clickable"
-          >
-          </a-text>
-
-          <!-- Familias -->
-          <a-text
-            id="familias"
-            value="Familias"
+          <!-- ===== FAMILIAS ===== -->
+          <a-plane
             position="1.5 0 0"
+            width="1"
+            height="0.5"
+            color="#000"
+            opacity="0"
+            class="clickable"
+            id="familiasBtn"
+          >
+          </a-plane>
+
+          <a-text
+            value="Familias"
+            position="1.5 0 0.01"
             align="center"
             color="#ff4b5c"
-            class="clickable"
           >
           </a-text>
 
-          <!-- Empresas -->
-          <a-text
-            id="empresas"
-            value="Empresas"
+          <!-- ===== EMPRESAS ===== -->
+          <a-plane
             position="-1.5 0 0"
+            width="1"
+            height="0.5"
+            color="#000"
+            opacity="0"
+            class="clickable"
+            id="empresasBtn"
+          >
+          </a-plane>
+
+          <a-text
+            value="Empresas"
+            position="-1.5 0 0.01"
             align="center"
             color="#4cc9f0"
-            class="clickable"
           >
           </a-text>
 
-          <!-- Panel de información -->
+          <!-- PANEL INFORMACION -->
           <a-plane
-            id="panel"
             position="0 -1 0"
             width="3"
             height="1"
-            color="#000000"
+            color="#000"
             opacity="0.7"
           >
           </a-plane>
 
           <a-text
             id="info"
-            value="Toca un elemento"
+            value="Toca Familias o Empresas"
             position="0 -1 0.01"
             align="center"
             width="4"
@@ -83,24 +81,15 @@
         </a-entity>
       </a-marker>
 
-      <!-- Cámara con cursor para detectar clics -->
+      <!-- CAMARA CON CURSOR CORRECTO -->
       <a-entity camera>
-        <a-cursor raycaster="objects: .clickable" fuse="false"> </a-cursor>
+        <a-cursor rayOrigin="mouse" raycaster="objects: .clickable"> </a-cursor>
       </a-entity>
     </a-scene>
 
     <script>
-      document.querySelector("#titulo").addEventListener("click", function () {
-        document
-          .querySelector("#info")
-          .setAttribute(
-            "value",
-            "Modelo que muestra el intercambio entre familias y empresas.",
-          );
-      });
-
       document
-        .querySelector("#familias")
+        .querySelector("#familiasBtn")
         .addEventListener("click", function () {
           document
             .querySelector("#info")
@@ -111,7 +100,7 @@
         });
 
       document
-        .querySelector("#empresas")
+        .querySelector("#empresasBtn")
         .addEventListener("click", function () {
           document
             .querySelector("#info")
