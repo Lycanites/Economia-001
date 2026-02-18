@@ -4,77 +4,100 @@
     <meta charset="utf-8" />
     <title>Logus AR Experience</title>
 
+    <!-- A-Frame -->
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+
+    <!-- AR.js con marcador -->
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
 
   <body style="margin: 0; overflow: hidden">
-    <a-scene
-      vr-mode-ui="enabled: false"
-      renderer="colorManagement: true;"
-      xrweb="optionalFeatures: hit-test, local-floor;"
-      embedded
-      arjs="false"
-    >
-      <!-- Cámara AR -->
-      <a-camera position="0 1.6 0"></a-camera>
-
-      <!-- Luz -->
-      <a-light type="ambient" intensity="1"></a-light>
-      <a-light type="directional" position="1 3 2" intensity="1"></a-light>
-
-      <!-- Modelo principal -->
-      <a-entity
-        id="economia"
-        position="0 0 -2"
-        animation="property: rotation; to: 0 360 0; loop: true; dur: 12000; easing: linear"
-      >
-        <!-- Círculo central -->
-        <a-torus
-          color="#00ffff"
-          radius="0.8"
-          radius-tubular="0.05"
-          animation="property: material.emissiveIntensity; dir: alternate; dur: 1500; loop: true; to: 1"
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+      <!-- Marcador HIRO -->
+      <a-marker preset="hiro">
+        <!-- Modelo principal -->
+        <a-entity
+          id="economia"
+          rotation="-90 0 0"
+          animation="property: rotation; to: -90 360 0; loop: true; dur: 15000; easing: linear"
         >
-        </a-torus>
+          <!-- Círculo central -->
+          <a-torus color="#00ffff" radius="0.8" radius-tubular="0.05">
+          </a-torus>
 
-        <!-- Familias -->
-        <a-sphere
-          position="1.5 0 0"
-          radius="0.3"
-          color="#ff4b5c"
-          class="clickable"
-          id="familias"
-        >
-        </a-sphere>
+          <!-- Texto principal (clickeable) -->
+          <a-text
+            id="titulo"
+            value="Flujo Circular"
+            position="0 1 0"
+            align="center"
+            color="#ffffff"
+            class="clickable"
+          >
+          </a-text>
 
-        <!-- Empresas -->
-        <a-box
-          position="-1.5 0 0"
-          depth="0.5"
-          height="0.5"
-          width="0.5"
-          color="#4cc9f0"
-          class="clickable"
-          id="empresas"
-        >
-        </a-box>
+          <!-- Familias -->
+          <a-text
+            id="familias"
+            value="Familias"
+            position="1.5 0 0"
+            align="center"
+            color="#ff4b5c"
+            class="clickable"
+          >
+          </a-text>
 
-        <!-- Texto dinámico -->
-        <a-text
-          id="info"
-          value="Flujo Circular Economico"
-          align="center"
-          position="0 1.5 0"
-          color="#ffffff"
-        >
-        </a-text>
+          <!-- Empresas -->
+          <a-text
+            id="empresas"
+            value="Empresas"
+            position="-1.5 0 0"
+            align="center"
+            color="#4cc9f0"
+            class="clickable"
+          >
+          </a-text>
+
+          <!-- Panel de información -->
+          <a-plane
+            id="panel"
+            position="0 -1 0"
+            width="3"
+            height="1"
+            color="#000000"
+            opacity="0.7"
+          >
+          </a-plane>
+
+          <a-text
+            id="info"
+            value="Toca un elemento"
+            position="0 -1 0.01"
+            align="center"
+            width="4"
+            color="#ffffff"
+          >
+          </a-text>
+        </a-entity>
+      </a-marker>
+
+      <!-- Cámara con cursor para detectar clics -->
+      <a-entity camera>
+        <a-cursor raycaster="objects: .clickable" fuse="false"> </a-cursor>
       </a-entity>
     </a-scene>
 
     <script>
-      let puntos = 0;
+      document.querySelector("#titulo").addEventListener("click", function () {
+        document
+          .querySelector("#info")
+          .setAttribute(
+            "value",
+            "Modelo que muestra el intercambio entre familias y empresas.",
+          );
+      });
 
       document
         .querySelector("#familias")
@@ -83,10 +106,8 @@
             .querySelector("#info")
             .setAttribute(
               "value",
-              "Familias: Consumen bienes y ofrecen trabajo",
+              "Familias:\n- Consumen bienes\n- Ofrecen trabajo\n- Reciben salarios",
             );
-          puntos++;
-          alert("Correcto! +1 punto");
         });
 
       document
@@ -96,10 +117,8 @@
             .querySelector("#info")
             .setAttribute(
               "value",
-              "Empresas: Producen bienes y pagan salarios",
+              "Empresas:\n- Producen bienes\n- Pagan salarios\n- Generan oferta",
             );
-          puntos++;
-          alert("Correcto! +1 punto");
         });
     </script>
   </body>
