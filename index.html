@@ -1,115 +1,123 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>AR Economía - HUD</title>
+<head>
+<meta charset="utf-8">
+<title>AR Economía - HUD Profesional</title>
 
-    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
+<script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
 
-    <style>
-      body {
-        margin: 0;
-        overflow: hidden;
-      }
-    </style>
-  </head>
+<style>
+body { margin: 0; overflow: hidden; }
+</style>
+</head>
 
-  <body>
-    <a-scene embedded arjs>
-      <a-marker preset="hiro">
-        <!-- PANEL PRINCIPAL -->
-        <a-entity id="hudPanel" position="0 1 0">
-          <!-- Fondo holográfico -->
-          <a-plane
-            width="3.5"
-            height="2.2"
-            color="#0D1B2A"
-            opacity="0.85"
-            material="transparent: true"
-            animation="property: scale; from: 0 0 0; to: 1 1 1; dur: 800; easing: easeOutBack"
-          >
-          </a-plane>
+<body>
 
-          <!-- Marco Neon -->
-          <a-plane
-            width="3.6"
-            height="2.3"
-            color="#00B4FF"
-            opacity="0.15"
-            material="transparent: true"
-          >
-          </a-plane>
+<a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
 
-          <!-- Título -->
-          <a-text
-            id="titulo"
-            position="-1.5 0.7 0.01"
-            color="#00E5FF"
-            width="3"
-            value=""
-          >
-          </a-text>
+  <!-- CÁMARA con FOV ajustado -->
+  <a-entity camera="fov: 60"></a-entity>
 
-          <!-- Contenido -->
-          <a-text
-            id="contenido"
-            position="-1.5 0.2 0.01"
-            color="#FFFFFF"
-            width="3"
-            value=""
-          >
-          </a-text>
-        </a-entity>
-      </a-marker>
+  <a-marker preset="hiro">
 
-      <a-entity camera></a-entity>
-    </a-scene>
+    <!-- PANEL HUD -->
+    <a-entity id="hudPanel"
+              position="0 0.8 0"
+              scale="0.8 0.8 0.8"
+              look-at="[camera]">
 
-    <script>
-      const conceptos = [
-        {
-          titulo: "POSITIVIDAD",
-          contenido:
-            "Auguste Comte (1830)\nConocimiento basado en observacion y metodo cientifico.",
-        },
-        {
-          titulo: "ECONOMIA POSITIVA",
-          contenido:
-            "J.N. Keynes (1891)\nDescribe la economia sin juicios de valor.",
-        },
-        {
-          titulo: "ECONOMIA NORMATIVA",
-          contenido:
-            "J.N. Keynes (1891)\nExplica como deberia funcionar la economia.",
-        },
-        {
-          titulo: "MICROECONOMIA",
-          contenido: "Alfred Marshall (1890)\nEstudia consumidores y empresas.",
-        },
-        {
-          titulo: "MACROECONOMIA",
-          contenido: "J.M. Keynes (1936)\nInflacion, PIB y desempleo.",
-        },
-        {
-          titulo: "FLUJO CIRCULAR",
-          contenido: "Francois Quesnay (1758)\nCirculacion de dinero y bienes.",
-        },
-      ];
+      <!-- Fondo holográfico -->
+      <a-plane
+        width="3.2"
+        height="2"
+        color="#0D1B2A"
+        opacity="0.88"
+        material="transparent: true"
+        animation="property: scale; from: 0 0 0; to: 1 1 1; dur: 600; easing: easeOutBack">
+      </a-plane>
 
-      let indice = 0;
+      <!-- Borde Neon -->
+      <a-plane
+        width="3.3"
+        height="2.1"
+        color="#00B4FF"
+        opacity="0.12"
+        material="transparent: true">
+      </a-plane>
 
-      const titulo = document.querySelector("#titulo");
-      const contenido = document.querySelector("#contenido");
+      <!-- Título -->
+      <a-text
+        id="titulo"
+        position="-1.4 0.65 0.02"
+        color="#00E5FF"
+        width="2.8"
+        align="left"
+        value="">
+      </a-text>
 
-      function cambiarConcepto() {
-        titulo.setAttribute("value", conceptos[indice].titulo);
-        contenido.setAttribute("value", conceptos[indice].contenido);
-        indice = (indice + 1) % conceptos.length;
-      }
+      <!-- Contenido -->
+      <a-text
+        id="contenido"
+        position="-1.4 0.15 0.02"
+        color="#FFFFFF"
+        width="2.8"
+        align="left"
+        value="">
+      </a-text>
 
-      setInterval(cambiarConcepto, 7000);
-      cambiarConcepto();
-    </script>
-  </body>
+    </a-entity>
+
+  </a-marker>
+
+</a-scene>
+
+<script>
+
+// Conceptos
+const conceptos = [
+{
+titulo: "POSITIVIDAD",
+contenido: "Auguste Comte (1830)\nConocimiento basado en observacion y metodo cientifico."
+},
+{
+titulo: "ECONOMIA POSITIVA",
+contenido: "J.N. Keynes (1891)\nDescribe la economia sin juicios de valor."
+},
+{
+titulo: "ECONOMIA NORMATIVA",
+contenido: "J.N. Keynes (1891)\nExplica como deberia funcionar la economia."
+},
+{
+titulo: "MICROECONOMIA",
+contenido: "Alfred Marshall (1890)\nEstudia consumidores y empresas."
+},
+{
+titulo: "MACROECONOMIA",
+contenido: "J.M. Keynes (1936)\nInflacion, PIB y desempleo."
+},
+{
+titulo: "FLUJO CIRCULAR",
+contenido: "Francois Quesnay (1758)\nCirculacion de dinero y bienes."
+}
+];
+
+let indice = 0;
+
+const titulo = document.querySelector("#titulo");
+const contenido = document.querySelector("#contenido");
+
+function cambiarConcepto(){
+  titulo.setAttribute("value", conceptos[indice].titulo);
+  contenido.setAttribute("value", conceptos[indice].contenido);
+  indice = (indice + 1) % conceptos.length;
+}
+
+// Cambia cada 7 segundos
+setInterval(cambiarConcepto, 7000);
+cambiarConcepto();
+
+</script>
+
+</body>
 </html>
