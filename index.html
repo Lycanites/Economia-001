@@ -1,123 +1,141 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-<meta charset="utf-8">
-<title>AR Economía - HUD Profesional</title>
+  <head>
+    <meta charset="utf-8" />
+    <title>AR Economía - HUD Circular</title>
 
-<script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
 
-<style>
-body { margin: 0; overflow: hidden; }
-</style>
-</head>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+    </style>
+  </head>
 
-<body>
+  <body>
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+      <a-entity camera="fov: 60"></a-entity>
 
-<a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+      <a-marker preset="hiro">
+        <!-- CONTENEDOR PRINCIPAL -->
+        <a-entity position="0 0 0" look-at="[camera]">
+          <!-- CIRCULO PRINCIPAL -->
+          <a-ring
+            position="0 0.3 0"
+            radius-inner="0.8"
+            radius-outer="1"
+            color="#00E5FF"
+            opacity="0.7"
+            material="transparent:true"
+            animation="property: rotation; to: 0 360 0; loop: true; dur: 8000; easing: linear"
+          >
+          </a-ring>
 
-  <!-- CÁMARA con FOV ajustado -->
-  <a-entity camera="fov: 60"></a-entity>
+          <!-- PUNTO SUPERIOR -->
+          <a-sphere
+            position="0 1.3 0"
+            radius="0.08"
+            color="#00FFFF"
+            animation="property: scale; dir: alternate; dur: 1000; loop: true; to: 1.3 1.3 1.3"
+          >
+          </a-sphere>
 
-  <a-marker preset="hiro">
+          <!-- LINEA CONECTORA -->
+          <a-cylinder
+            position="0 0.8 0"
+            radius="0.01"
+            height="1"
+            color="#00E5FF"
+          >
+          </a-cylinder>
 
-    <!-- PANEL HUD -->
-    <a-entity id="hudPanel"
-              position="0 0.8 0"
-              scale="0.8 0.8 0.8"
-              look-at="[camera]">
+          <!-- PANEL SUPERIOR -->
+          <a-plane
+            position="0 1.8 0"
+            width="2.8"
+            height="1.1"
+            color="#0D1B2A"
+            opacity="0.9"
+            material="transparent:true"
+          >
+          </a-plane>
 
-      <!-- Fondo holográfico -->
-      <a-plane
-        width="3.2"
-        height="2"
-        color="#0D1B2A"
-        opacity="0.88"
-        material="transparent: true"
-        animation="property: scale; from: 0 0 0; to: 1 1 1; dur: 600; easing: easeOutBack">
-      </a-plane>
+          <!-- BORDE NEON -->
+          <a-plane
+            position="0 1.8 -0.01"
+            width="2.9"
+            height="1.2"
+            color="#00E5FF"
+            opacity="0.2"
+            material="transparent:true"
+          >
+          </a-plane>
 
-      <!-- Borde Neon -->
-      <a-plane
-        width="3.3"
-        height="2.1"
-        color="#00B4FF"
-        opacity="0.12"
-        material="transparent: true">
-      </a-plane>
+          <!-- TITULO -->
+          <a-text
+            id="titulo"
+            position="-1.2 2.1 0.02"
+            width="2.4"
+            color="#00FFFF"
+            align="left"
+            value=""
+          >
+          </a-text>
 
-      <!-- Título -->
-      <a-text
-        id="titulo"
-        position="-1.4 0.65 0.02"
-        color="#00E5FF"
-        width="2.8"
-        align="left"
-        value="">
-      </a-text>
+          <!-- CONTENIDO -->
+          <a-text
+            id="contenido"
+            position="-1.2 1.7 0.02"
+            width="2.4"
+            color="#FFFFFF"
+            align="left"
+            value=""
+          >
+          </a-text>
+        </a-entity>
+      </a-marker>
+    </a-scene>
 
-      <!-- Contenido -->
-      <a-text
-        id="contenido"
-        position="-1.4 0.15 0.02"
-        color="#FFFFFF"
-        width="2.8"
-        align="left"
-        value="">
-      </a-text>
+    <script>
+      const conceptos = [
+        {
+          titulo: "POSITIVIDAD",
+          contenido: "Auguste Comte (1830)\nMetodo cientifico y observacion.",
+        },
+        {
+          titulo: "ECONOMIA POSITIVA",
+          contenido: "Describe hechos sin juicios de valor.",
+        },
+        {
+          titulo: "ECONOMIA NORMATIVA",
+          contenido: "Indica como deberia funcionar la economia.",
+        },
+        {
+          titulo: "MICROECONOMIA",
+          contenido: "Estudia consumidores y empresas.",
+        },
+        {
+          titulo: "MACROECONOMIA",
+          contenido: "Inflacion, PIB y desempleo.",
+        },
+      ];
 
-    </a-entity>
+      let i = 0;
 
-  </a-marker>
+      const titulo = document.querySelector("#titulo");
+      const contenido = document.querySelector("#contenido");
 
-</a-scene>
+      function cambiar() {
+        titulo.setAttribute("value", conceptos[i].titulo);
+        contenido.setAttribute("value", conceptos[i].contenido);
+        i = (i + 1) % conceptos.length;
+      }
 
-<script>
-
-// Conceptos
-const conceptos = [
-{
-titulo: "POSITIVIDAD",
-contenido: "Auguste Comte (1830)\nConocimiento basado en observacion y metodo cientifico."
-},
-{
-titulo: "ECONOMIA POSITIVA",
-contenido: "J.N. Keynes (1891)\nDescribe la economia sin juicios de valor."
-},
-{
-titulo: "ECONOMIA NORMATIVA",
-contenido: "J.N. Keynes (1891)\nExplica como deberia funcionar la economia."
-},
-{
-titulo: "MICROECONOMIA",
-contenido: "Alfred Marshall (1890)\nEstudia consumidores y empresas."
-},
-{
-titulo: "MACROECONOMIA",
-contenido: "J.M. Keynes (1936)\nInflacion, PIB y desempleo."
-},
-{
-titulo: "FLUJO CIRCULAR",
-contenido: "Francois Quesnay (1758)\nCirculacion de dinero y bienes."
-}
-];
-
-let indice = 0;
-
-const titulo = document.querySelector("#titulo");
-const contenido = document.querySelector("#contenido");
-
-function cambiarConcepto(){
-  titulo.setAttribute("value", conceptos[indice].titulo);
-  contenido.setAttribute("value", conceptos[indice].contenido);
-  indice = (indice + 1) % conceptos.length;
-}
-
-// Cambia cada 7 segundos
-setInterval(cambiarConcepto, 7000);
-cambiarConcepto();
-
-</script>
-
-</body>
+      setInterval(cambiar, 6000);
+      cambiar();
+    </script>
+  </body>
 </html>
