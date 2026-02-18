@@ -14,16 +14,10 @@
   </head>
 
   <body style="margin: 0; overflow: hidden">
-    <!-- ESCENA AR -->
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
-      <!-- Marcador HIRO -->
       <a-marker preset="hiro">
-        <!-- Contenedor principal rotado para que quede plano -->
         <a-entity rotation="-90 0 0">
-          <!-- ========================= -->
-          <!-- CÍRCULO CENTRAL CON GLOW -->
-          <!-- ========================= -->
-
+          <!-- CÍRCULO CENTRAL -->
           <a-torus
             color="#00ffff"
             radius="0.6"
@@ -37,10 +31,7 @@
           >
           </a-torus>
 
-          <!-- ================================= -->
-          <!-- LINEA IZQUIERDA (Decorativa HUD)  -->
-          <!-- ================================= -->
-
+          <!-- LINEAS HUD -->
           <a-cylinder
             position="-0.9 0.5 0"
             rotation="0 0 90"
@@ -49,10 +40,6 @@
             color="#00ffff"
           >
           </a-cylinder>
-
-          <!-- ================================= -->
-          <!-- LINEA DERECHA (Decorativa HUD)    -->
-          <!-- ================================= -->
 
           <a-cylinder
             position="0.9 0.5 0"
@@ -63,11 +50,7 @@
           >
           </a-cylinder>
 
-          <!-- ===================== -->
-          <!-- BOTÓN EMPRESAS       -->
-          <!-- ===================== -->
-
-          <!-- Plano clickeable -->
+          <!-- BOTÓN CONCEPTOS I -->
           <a-plane
             position="-1.8 1 0"
             width="1.4"
@@ -75,13 +58,12 @@
             color="#111"
             opacity="0.7"
             class="clickable"
-            id="empresasBtn"
+            id="conceptos1Btn"
           >
           </a-plane>
 
-          <!-- Texto del botón -->
           <a-text
-            value="Empresas"
+            value="Conceptos I"
             position="-1.8 1 0.01"
             align="center"
             width="3"
@@ -89,10 +71,7 @@
           >
           </a-text>
 
-          <!-- ===================== -->
-          <!-- BOTÓN FAMILIAS       -->
-          <!-- ===================== -->
-
+          <!-- BOTÓN CONCEPTOS II -->
           <a-plane
             position="1.8 1 0"
             width="1.4"
@@ -100,12 +79,12 @@
             color="#111"
             opacity="0.7"
             class="clickable"
-            id="familiasBtn"
+            id="conceptos2Btn"
           >
           </a-plane>
 
           <a-text
-            value="Familias"
+            value="Conceptos II"
             position="1.8 1 0.01"
             align="center"
             width="3"
@@ -113,10 +92,7 @@
           >
           </a-text>
 
-          <!-- ===================== -->
-          <!-- PANEL INFERIOR INFO  -->
-          <!-- ===================== -->
-
+          <!-- PANEL INFO -->
           <a-plane
             position="0 -1.5 0"
             width="3.5"
@@ -128,7 +104,7 @@
 
           <a-text
             id="info"
-            value="Toca un elemento"
+            value="Selecciona un bloque"
             position="0 -1.5 0.01"
             align="center"
             width="4"
@@ -138,20 +114,12 @@
         </a-entity>
       </a-marker>
 
-      <!-- ====================== -->
-      <!-- CAMARA + CURSOR CLICK -->
-      <!-- ====================== -->
-
       <a-entity camera>
         <a-cursor rayOrigin="mouse" raycaster="objects: .clickable"> </a-cursor>
       </a-entity>
     </a-scene>
 
     <script>
-      // ==============================
-      // FUNCIÓN PARA EFECTO BOTÓN
-      // ==============================
-
       function efectoClick(boton) {
         boton.setAttribute(
           "animation",
@@ -159,38 +127,117 @@
         );
       }
 
-      // ==============================
-      // EVENTO BOTÓN FAMILIAS
-      // ==============================
+      const info = document.querySelector("#info");
+      const marker = document.querySelector("a-marker a-entity");
 
+      const conceptosI = [
+        "Problema (Ing vs Econ)",
+        "Escasez",
+        "Problema Económico",
+        "Factores Productivos",
+        "Necesidad",
+        "Satisfactores",
+        "Pirámide de Maslow",
+        "Costo de oportunidad",
+      ];
+
+      const conceptosII = [
+        "Ciencia",
+        "Ciencia Formal",
+        "Ciencia Fáctica",
+        "Ciencia Natural",
+        "Ciencia Social",
+      ];
+
+      function limpiarConceptos() {
+        document.querySelectorAll(".concept-item").forEach((e) => e.remove());
+        const regresar = document.querySelector("#regresarBtn");
+        if (regresar) regresar.remove();
+      }
+
+      function mostrarMenuConceptos(lista) {
+        limpiarConceptos();
+        info.setAttribute("value", "Selecciona un concepto");
+
+        const radio = 1.2;
+        const total = lista.length;
+
+        lista.forEach((concepto, index) => {
+          const angulo = (index / total) * Math.PI * 2;
+          const x = Math.cos(angulo) * radio;
+          const y = Math.sin(angulo) * radio;
+
+          const plano = document.createElement("a-plane");
+          plano.setAttribute("position", `${x} ${y} 0`);
+          plano.setAttribute("width", "1");
+          plano.setAttribute("height", "0.4");
+          plano.setAttribute("color", "#111");
+          plano.setAttribute("opacity", "0.8");
+          plano.setAttribute("class", "clickable concept-item");
+
+          plano.addEventListener("click", function () {
+            efectoClick(plano);
+            info.setAttribute("value", concepto);
+          });
+
+          const texto = document.createElement("a-text");
+          texto.setAttribute("value", concepto);
+          texto.setAttribute("align", "center");
+          texto.setAttribute("width", "2.5");
+          texto.setAttribute("color", "#00ffff");
+          texto.setAttribute("position", "0 0 0.01");
+          texto.setAttribute("class", "concept-item");
+
+          plano.appendChild(texto);
+          marker.appendChild(plano);
+        });
+
+        // BOTÓN REGRESAR
+        const regresar = document.createElement("a-plane");
+        regresar.setAttribute("id", "regresarBtn");
+        regresar.setAttribute("position", "0 0 0");
+        regresar.setAttribute("width", "0.8");
+        regresar.setAttribute("height", "0.4");
+        regresar.setAttribute("color", "#ff4b5c");
+        regresar.setAttribute("opacity", "0.9");
+        regresar.setAttribute("class", "clickable concept-item");
+
+        regresar.addEventListener("click", function () {
+          efectoClick(regresar);
+          limpiarConceptos();
+          info.setAttribute("value", "Selecciona un bloque");
+        });
+
+        const textoRegresar = document.createElement("a-text");
+        textoRegresar.setAttribute("value", "Regresar");
+        textoRegresar.setAttribute("align", "center");
+        textoRegresar.setAttribute("width", "2");
+        textoRegresar.setAttribute("color", "#fff");
+        textoRegresar.setAttribute("position", "0 0 0.01");
+        textoRegresar.setAttribute("class", "concept-item");
+
+        regresar.appendChild(textoRegresar);
+        marker.appendChild(regresar);
+      }
+
+      // ==============================
+      // BOTÓN CONCEPTOS I
+      // ==============================
       document
-        .querySelector("#familiasBtn")
+        .querySelector("#conceptos1Btn")
         .addEventListener("click", function () {
           efectoClick(this);
-
-          document
-            .querySelector("#info")
-            .setAttribute(
-              "value",
-              "Familias:\n- Consumen bienes\n- Ofrecen trabajo\n- Reciben salarios",
-            );
+          mostrarMenuConceptos(conceptosI);
         });
 
       // ==============================
-      // EVENTO BOTÓN EMPRESAS
+      // BOTÓN CONCEPTOS II
       // ==============================
-
       document
-        .querySelector("#empresasBtn")
+        .querySelector("#conceptos2Btn")
         .addEventListener("click", function () {
           efectoClick(this);
-
-          document
-            .querySelector("#info")
-            .setAttribute(
-              "value",
-              "Empresas:\n- Producen bienes\n- Pagan salarios\n- Generan oferta",
-            );
+          mostrarMenuConceptos(conceptosII);
         });
     </script>
   </body>
