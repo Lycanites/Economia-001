@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Logus AR Experience</title>
+    <title>Economia</title>
 
     <!-- Librería principal A-Frame -->
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
@@ -20,8 +20,8 @@
           <!-- CÍRCULO CENTRAL -->
           <a-torus
             color="#B1CC74"
-            radius="0.6"
-            radius-tubular="0.06"
+            radius="0.9"
+            radius-tubular="0.09"
             material="emissive: #CDE49B; emissiveIntensity: 0.6"
             animation="property: material.emissiveIntensity;
                dir: alternate;
@@ -32,7 +32,7 @@
 
           <!-- BOTÓN CONCEPTOS I -->
           <a-plane
-            position="-2.5 2 0"
+            position="-3 2.5 0"
             width="1.4"
             height="0.5"
             color="#545F66"
@@ -43,7 +43,7 @@
 
           <a-text
             value="Conceptos I"
-            position="-2.5 2 0.05"
+            position="-3 2.5 0.05"
             align="center"
             width="6"
             color="#D0F4EA"
@@ -52,7 +52,7 @@
 
           <!-- BOTÓN CONCEPTOS II -->
           <a-plane
-            position="2.5 2 0"
+            position="3 2.5 0"
             width="1.4"
             height="0.5"
             color="#545F66"
@@ -63,7 +63,7 @@
 
           <a-text
             value="Conceptos II"
-            position="2.5 2 0.05"
+            position="3 2.5 0.05"
             align="center"
             width="6"
             color="#D0F4EA"
@@ -72,9 +72,10 @@
 
           <!-- PANEL INFO -->
           <a-plane
-            position="0 -3 0"
+            id="panelInfo"
+            position="0 -4 0"
             width="3.5"
-            height="1"
+            height="2"
             color="#829399"
             material="shader: flat; opacity: 1"
           ></a-plane>
@@ -82,9 +83,10 @@
           <a-text
             id="info"
             value="Selecciona un bloque"
-            position="0 -3 0.05"
+            position="0 -4 0.05"
             align="center"
-            width="5"
+            width="6"
+            wrap-count="40"
             color="#D0F4EA"
             material="shader: flat; opacity: 1"
             scale="1.2 1.2 1.2"
@@ -101,12 +103,90 @@
       function efectoClick(boton) {
         boton.setAttribute(
           "animation",
-          "property: scale; to: 1.1 1.1 1; dur: 150; dir: alternate; loop: 2",
+          "property: scale; to: 1.15 1.15 1; dur: 150; dir: alternate; loop: 2",
         );
       }
 
       const info = document.querySelector("#info");
+      const panelInfo = document.querySelector("#panelInfo");
       const marker = document.querySelector("a-marker a-entity");
+
+      // ==============================
+      // FUNCIÓN AJUSTAR PANEL
+      // ==============================
+
+      function ajustarPanel(texto) {
+        const lineas = texto.split("\n").length;
+        const altura = Math.max(1.2, lineas * 0.25);
+
+        panelInfo.setAttribute("height", altura);
+        info.setAttribute("wrap-count", 40);
+        info.setAttribute("value", texto);
+      }
+
+      // ==============================
+      // DEFINICIONES
+      // ==============================
+
+      const definiciones = {
+        "Problema (Ing vs Econ)":
+          "PROBLEMA\n\n" +
+          "Situación de brecha entre estado actual y deseado.\n\n" +
+          "INGENIERÍA:\n" +
+          "Situación técnica que requiere solución óptima usando métodos científicos y tecnológicos.\n\n" +
+          "ECONÓMICO:\n" +
+          "Surge cuando los recursos son limitados y las necesidades ilimitadas.",
+
+        Escasez:
+          "ESCASEZ\n\n" +
+          "Condición donde los recursos son insuficientes para satisfacer todas las necesidades.\n\n" +
+          "Es la base de la teoría económica.",
+
+        "Problema Económico":
+          "PROBLEMA ECONÓMICO\n\n" +
+          "Necesidades ilimitadas vs recursos limitados.\n\n" +
+          "Obliga a responder:\n" +
+          "¿Qué producir?\n" +
+          "¿Cómo producir?\n" +
+          "¿Para quién producir?",
+
+        "Factores Productivos":
+          "FACTORES PRODUCTIVOS\n\n" +
+          "Recursos que se combinan para generar bienes y servicios.\n\n" +
+          "Tierra, Trabajo, Capital y Organización.",
+
+        Necesidad:
+          "NECESIDAD\n\n" +
+          "Sensación de carencia unida al deseo de satisfacerla.",
+
+        Satisfactores:
+          "SATISFACTORES\n\n" +
+          "Bien o servicio que extingue una necesidad.\n\n" +
+          "Ejemplo:\nNecesidad: hambre.\nSatisfactor: alimento.",
+
+        "Pirámide de Maslow":
+          "PIRÁMIDE DE MASLOW\n\n" +
+          "Jerarquía de necesidades humanas.\n\n" +
+          "1. Fisiológicas\n2. Seguridad\n3. Sociales\n4. Estima\n5. Autorrealización",
+
+        Ciencia:
+          "CIENCIA\n\n" +
+          "Conjunto sistemático de conocimientos obtenidos mediante método científico.",
+
+        "Ciencia Formal":
+          "CIENCIA FORMAL\n\n" +
+          "Estudia sistemas abstractos como números y símbolos.",
+
+        "Ciencia Fáctica":
+          "CIENCIA FÁCTICA\n\n" + "Estudia hechos observables y verificables.",
+
+        "Ciencia Natural":
+          "CIENCIA NATURAL\n\n" + "Analiza fenómenos físicos y biológicos.",
+
+        "Ciencia Social":
+          "CIENCIA SOCIAL\n\n" +
+          "Estudia el comportamiento humano en sociedad.",
+      };
 
       const conceptosI = [
         "Problema (Ing vs Econ)",
@@ -116,7 +196,6 @@
         "Necesidad",
         "Satisfactores",
         "Pirámide de Maslow",
-        "Costo de oportunidad",
       ];
 
       const conceptosII = [
@@ -133,11 +212,11 @@
         if (regresar) regresar.remove();
       }
 
-      function mostrarMenuConceptos(lista) {
+      function mostrarMenuConceptos(lista, colorBase) {
         limpiarConceptos();
-        info.setAttribute("value", "Selecciona un concepto");
+        ajustarPanel("Selecciona un concepto");
 
-        const radio = 2;
+        const radio = 2.5;
         const total = lista.length;
 
         lista.forEach((concepto, index) => {
@@ -147,25 +226,22 @@
 
           const plano = document.createElement("a-plane");
           plano.setAttribute("position", `${x} ${y} 0`);
-          plano.setAttribute("width", "1");
-          plano.setAttribute("height", "0.4");
-          plano.setAttribute("color", "#111");
-          plano.setAttribute("material", "shader: flat; opacity: 1");
+          plano.setAttribute("width", "1.2");
+          plano.setAttribute("height", "0.45");
+          plano.setAttribute("color", colorBase);
           plano.setAttribute("class", "clickable concept-item");
 
           plano.addEventListener("click", function () {
             efectoClick(plano);
-            info.setAttribute("value", concepto);
+            ajustarPanel(definiciones[concepto]);
           });
 
           const texto = document.createElement("a-text");
           texto.setAttribute("value", concepto);
           texto.setAttribute("align", "center");
-          texto.setAttribute("width", "2.5");
-          texto.setAttribute("color", "#00ffff");
-          texto.setAttribute("position", "0 0 0.05"); // más separado del plano
-          texto.setAttribute("material", "shader: flat; opacity: 1");
-          texto.setAttribute("scale", "1.2 1.2 1.2"); // más grande
+          texto.setAttribute("width", "3");
+          texto.setAttribute("color", "#FFFFFF");
+          texto.setAttribute("position", "0 0 0.05");
           texto.setAttribute("class", "concept-item");
 
           plano.appendChild(texto);
@@ -176,50 +252,43 @@
         const regresar = document.createElement("a-plane");
         regresar.setAttribute("id", "regresarBtn");
         regresar.setAttribute("position", "0 0 0");
-        regresar.setAttribute("width", "0.8");
+        regresar.setAttribute("width", "1");
         regresar.setAttribute("height", "0.4");
         regresar.setAttribute("color", "#ff4b5c");
-        regresar.setAttribute("material", "shader: flat; opacity: 1");
         regresar.setAttribute("class", "clickable concept-item");
 
         regresar.addEventListener("click", function () {
           efectoClick(regresar);
           limpiarConceptos();
-          info.setAttribute("value", "Selecciona un bloque");
+          ajustarPanel("Selecciona un bloque");
         });
 
         const textoRegresar = document.createElement("a-text");
         textoRegresar.setAttribute("value", "Regresar");
         textoRegresar.setAttribute("align", "center");
-        textoRegresar.setAttribute("width", "2");
+        textoRegresar.setAttribute("width", "3");
         textoRegresar.setAttribute("color", "#fff");
-        textoRegresar.setAttribute("class", "concept-item");
-        textoRegresar.setAttribute("material", "shader: flat; opacity: 1");
         textoRegresar.setAttribute("position", "0 0 0.05");
-        textoRegresar.setAttribute("scale", "1.2 1.2 1.2");
+        textoRegresar.setAttribute("class", "concept-item");
 
         regresar.appendChild(textoRegresar);
         marker.appendChild(regresar);
       }
 
-      // ==============================
-      // BOTÓN CONCEPTOS I
-      // ==============================
+      // BOTONES PRINCIPALES
+
       document
         .querySelector("#conceptos1Btn")
         .addEventListener("click", function () {
           efectoClick(this);
-          mostrarMenuConceptos(conceptosI);
+          mostrarMenuConceptos(conceptosI, "#2E86C1"); // Azul Conceptos I
         });
 
-      // ==============================
-      // BOTÓN CONCEPTOS II
-      // ==============================
       document
         .querySelector("#conceptos2Btn")
         .addEventListener("click", function () {
           efectoClick(this);
-          mostrarMenuConceptos(conceptosII);
+          mostrarMenuConceptos(conceptosII, "#27AE60"); // Verde Conceptos II
         });
     </script>
   </body>
