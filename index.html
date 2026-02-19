@@ -19,83 +19,90 @@
         <a-entity rotation="-90 0 0" scale="0.5 0.5 0.5">
           <!-- CÍRCULO CENTRAL -->
           <a-torus
-            color="#B1CC74"
+            color="#7400b8"
             radius="0.9"
             radius-tubular="0.09"
-            material="emissive: #CDE49B; emissiveIntensity: 0.6"
+            material="emissive: #6930c3; emissiveIntensity: 0.6"
             animation="property: material.emissiveIntensity;
                dir: alternate;
                dur: 1500;
                loop: true;
                to: 1.2"
-          ></a-torus>
+          >
+          </a-torus>
 
           <!-- BOTÓN CONCEPTOS I -->
           <a-plane
             position="-3 2.5 0"
             width="1.4"
             height="0.5"
-            color="#545F66"
+            color="#6930c3"
             material="shader: flat; opacity: 1"
             class="clickable"
             id="conceptos1Btn"
-          ></a-plane>
+          >
+          </a-plane>
 
           <a-text
             value="Conceptos I"
             position="-3 2.5 0.05"
             align="center"
             width="6"
-            color="#D0F4EA"
+            color="#80ffdb"
             material="shader: flat"
-          ></a-text>
+          >
+          </a-text>
 
           <!-- BOTÓN CONCEPTOS II -->
           <a-plane
             position="3 2.5 0"
             width="1.4"
             height="0.5"
-            color="#545F66"
+            color="#5e60ce"
             material="shader: flat; opacity: 1"
             class="clickable"
             id="conceptos2Btn"
-          ></a-plane>
+          >
+          </a-plane>
 
           <a-text
             value="Conceptos II"
             position="3 2.5 0.05"
             align="center"
             width="6"
-            color="#D0F4EA"
+            color="#80ffdb"
             material="shader: flat"
-          ></a-text>
+          >
+          </a-text>
 
           <!-- PANEL INFO -->
           <a-plane
             id="panelInfo"
-            position="0 -4 0"
+            position="0 -5 0"
             width="3.5"
             height="2"
-            color="#829399"
+            color="#5390d9"
             material="shader: flat; opacity: 1"
-          ></a-plane>
+          >
+          </a-plane>
 
           <a-text
             id="info"
             value="Selecciona un bloque"
             position="0 -4 0.05"
-            align="center"
+            anchor="center"
             width="6"
             wrap-count="40"
-            color="#D0F4EA"
+            color="#80ffdb"
             material="shader: flat; opacity: 1"
             scale="1.2 1.2 1.2"
-          ></a-text>
+          >
+          </a-text>
         </a-entity>
       </a-marker>
 
       <a-entity camera>
-        <a-cursor rayOrigin="mouse" raycaster="objects: .clickable"> </a-cursor>
+        <a-cursor rayOrigin="mouse" raycaster="objects: .clickable"></a-cursor>
       </a-entity>
     </a-scene>
 
@@ -112,7 +119,7 @@
       const marker = document.querySelector("a-marker a-entity");
 
       // ==============================
-      // FUNCIÓN AJUSTAR PANEL
+      // AJUSTAR PANEL DINAMICO
       // ==============================
 
       function ajustarPanel(texto) {
@@ -125,63 +132,75 @@
       }
 
       // ==============================
-      // DEFINICIONES
+      // FADE IN ANIMACION
+      // ==============================
+
+      function fadeInElemento(elemento) {
+        elemento.setAttribute("material", "opacity: 0");
+        elemento.setAttribute(
+          "animation__fade",
+          "property: material.opacity; from: 0; to: 1; dur: 500; easing: easeOutQuad",
+        );
+      }
+
+      // ==============================
+      // DEFINICIONES COMPLETAS SIN ACENTOS
       // ==============================
 
       const definiciones = {
         "Problema (Ing vs Econ)":
           "PROBLEMA\n\n" +
-          "Situación de brecha entre estado actual y deseado.\n\n" +
-          "INGENIERÍA:\n" +
-          "Situación técnica que requiere solución óptima usando métodos científicos y tecnológicos.\n\n" +
-          "ECONÓMICO:\n" +
+          "Situacion de brecha entre estado actual y deseado.\n\n" +
+          "INGENIERIA:\n" +
+          "Situacion tecnica que requiere solucion optima usando metodos cientificos y tecnologicos.\n\n" +
+          "ECONOMICO:\n" +
           "Surge cuando los recursos son limitados y las necesidades ilimitadas.",
 
         Escasez:
           "ESCASEZ\n\n" +
-          "Condición donde los recursos son insuficientes para satisfacer todas las necesidades.\n\n" +
-          "Es la base de la teoría económica.",
+          "Condicion donde los recursos son insuficientes para satisfacer todas las necesidades.\n\n" +
+          "Es la base de la teoria economica.",
 
-        "Problema Económico":
-          "PROBLEMA ECONÓMICO\n\n" +
+        "Problema Economico":
+          "PROBLEMA ECONOMICO\n\n" +
           "Necesidades ilimitadas vs recursos limitados.\n\n" +
           "Obliga a responder:\n" +
-          "¿Qué producir?\n" +
-          "¿Cómo producir?\n" +
-          "¿Para quién producir?",
+          "Que producir?\n" +
+          "Como producir?\n" +
+          "Para quien producir?",
 
         "Factores Productivos":
           "FACTORES PRODUCTIVOS\n\n" +
           "Recursos que se combinan para generar bienes y servicios.\n\n" +
-          "Tierra, Trabajo, Capital y Organización.",
+          "Tierra, Trabajo, Capital y Organizacion.",
 
         Necesidad:
           "NECESIDAD\n\n" +
-          "Sensación de carencia unida al deseo de satisfacerla.",
+          "Sensacion de carencia unida al deseo de satisfacerla.",
 
         Satisfactores:
           "SATISFACTORES\n\n" +
           "Bien o servicio que extingue una necesidad.\n\n" +
           "Ejemplo:\nNecesidad: hambre.\nSatisfactor: alimento.",
 
-        "Pirámide de Maslow":
-          "PIRÁMIDE DE MASLOW\n\n" +
-          "Jerarquía de necesidades humanas.\n\n" +
-          "1. Fisiológicas\n2. Seguridad\n3. Sociales\n4. Estima\n5. Autorrealización",
+        "Piramide de Maslow":
+          "PIRAMIDE DE MASLOW\n\n" +
+          "Jerarquia de necesidades humanas.\n\n" +
+          "1. Fisiologicas\n2. Seguridad\n3. Sociales\n4. Estima\n5. Autorrealizacion",
 
         Ciencia:
           "CIENCIA\n\n" +
-          "Conjunto sistemático de conocimientos obtenidos mediante método científico.",
+          "Conjunto sistematico de conocimientos obtenidos mediante metodo cientifico.",
 
         "Ciencia Formal":
           "CIENCIA FORMAL\n\n" +
-          "Estudia sistemas abstractos como números y símbolos.",
+          "Estudia sistemas abstractos como numeros y simbolos.",
 
-        "Ciencia Fáctica":
-          "CIENCIA FÁCTICA\n\n" + "Estudia hechos observables y verificables.",
+        "Ciencia Factica":
+          "CIENCIA FACTICA\n\n" + "Estudia hechos observables y verificables.",
 
         "Ciencia Natural":
-          "CIENCIA NATURAL\n\n" + "Analiza fenómenos físicos y biológicos.",
+          "CIENCIA NATURAL\n\n" + "Analiza fenomenos fisicos y biologicos.",
 
         "Ciencia Social":
           "CIENCIA SOCIAL\n\n" +
@@ -191,17 +210,17 @@
       const conceptosI = [
         "Problema (Ing vs Econ)",
         "Escasez",
-        "Problema Económico",
+        "Problema Economico",
         "Factores Productivos",
         "Necesidad",
         "Satisfactores",
-        "Pirámide de Maslow",
+        "Piramide de Maslow",
       ];
 
       const conceptosII = [
         "Ciencia",
         "Ciencia Formal",
-        "Ciencia Fáctica",
+        "Ciencia Factica",
         "Ciencia Natural",
         "Ciencia Social",
       ];
@@ -231,6 +250,8 @@
           plano.setAttribute("color", colorBase);
           plano.setAttribute("class", "clickable concept-item");
 
+          fadeInElemento(plano);
+
           plano.addEventListener("click", function () {
             efectoClick(plano);
             ajustarPanel(definiciones[concepto]);
@@ -248,7 +269,7 @@
           marker.appendChild(plano);
         });
 
-        // BOTÓN REGRESAR
+        // BOTON REGRESAR
         const regresar = document.createElement("a-plane");
         regresar.setAttribute("id", "regresarBtn");
         regresar.setAttribute("position", "0 0 0");
@@ -256,6 +277,8 @@
         regresar.setAttribute("height", "0.4");
         regresar.setAttribute("color", "#ff4b5c");
         regresar.setAttribute("class", "clickable concept-item");
+
+        fadeInElemento(regresar);
 
         regresar.addEventListener("click", function () {
           efectoClick(regresar);
@@ -269,7 +292,6 @@
         textoRegresar.setAttribute("width", "3");
         textoRegresar.setAttribute("color", "#fff");
         textoRegresar.setAttribute("position", "0 0 0.05");
-        textoRegresar.setAttribute("class", "concept-item");
 
         regresar.appendChild(textoRegresar);
         marker.appendChild(regresar);
@@ -281,14 +303,14 @@
         .querySelector("#conceptos1Btn")
         .addEventListener("click", function () {
           efectoClick(this);
-          mostrarMenuConceptos(conceptosI, "#2E86C1"); // Azul Conceptos I
+          mostrarMenuConceptos(conceptosI, "#2E86C1"); // Azul
         });
 
       document
         .querySelector("#conceptos2Btn")
         .addEventListener("click", function () {
           efectoClick(this);
-          mostrarMenuConceptos(conceptosII, "#27AE60"); // Verde Conceptos II
+          mostrarMenuConceptos(conceptosII, "#2E86C1"); // Azul tambien (sin verde)
         });
     </script>
   </body>
