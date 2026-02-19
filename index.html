@@ -16,101 +16,79 @@
   <body style="margin: 0; overflow: hidden">
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
       <a-marker preset="hiro">
-        <a-entity rotation="-90 0 0">
+        <a-entity rotation="-90 0 0" scale="0.5 0.5 0.5">
           <!-- CÍRCULO CENTRAL -->
           <a-torus
-            color="#00ffff"
+            color="#B1CC74"
             radius="0.6"
             radius-tubular="0.06"
-            material="emissive: #00ffff; emissiveIntensity: 0.6"
+            material="emissive: #CDE49B; emissiveIntensity: 0.6"
             animation="property: material.emissiveIntensity;
-                       dir: alternate;
-                       dur: 1500;
-                       loop: true;
-                       to: 1.2"
-          >
-          </a-torus>
-
-          <!-- LINEAS HUD -->
-          <a-cylinder
-            position="-0.9 0.5 0"
-            rotation="0 0 90"
-            radius="0.01"
-            height="1"
-            color="#00ffff"
-          >
-          </a-cylinder>
-
-          <a-cylinder
-            position="0.9 0.5 0"
-            rotation="0 0 90"
-            radius="0.01"
-            height="1"
-            color="#00ffff"
-          >
-          </a-cylinder>
+               dir: alternate;
+               dur: 1500;
+               loop: true;
+               to: 1.2"
+          ></a-torus>
 
           <!-- BOTÓN CONCEPTOS I -->
           <a-plane
-            position="-1.8 1 0"
+            position="-2.5 2 0"
             width="1.4"
             height="0.5"
-            color="#111"
-            opacity="0.7"
+            color="#545F66"
+            material="shader: flat; opacity: 1"
             class="clickable"
             id="conceptos1Btn"
-          >
-          </a-plane>
+          ></a-plane>
 
           <a-text
             value="Conceptos I"
-            position="-1.8 1 0.01"
+            position="-2.5 2 0.05"
             align="center"
-            width="3"
-            color="#4cc9f0"
-          >
-          </a-text>
+            width="6"
+            color="#D0F4EA"
+            material="shader: flat"
+          ></a-text>
 
           <!-- BOTÓN CONCEPTOS II -->
           <a-plane
-            position="1.8 1 0"
+            position="2.5 2 0"
             width="1.4"
             height="0.5"
-            color="#111"
-            opacity="0.7"
+            color="#545F66"
+            material="shader: flat; opacity: 1"
             class="clickable"
             id="conceptos2Btn"
-          >
-          </a-plane>
+          ></a-plane>
 
           <a-text
             value="Conceptos II"
-            position="1.8 1 0.01"
+            position="2.5 2 0.05"
             align="center"
-            width="3"
-            color="#ff4b5c"
-          >
-          </a-text>
+            width="6"
+            color="#D0F4EA"
+            material="shader: flat"
+          ></a-text>
 
           <!-- PANEL INFO -->
           <a-plane
-            position="0 -1.5 0"
+            position="0 -3 0"
             width="3.5"
             height="1"
-            color="#000"
-            opacity="0.8"
-          >
-          </a-plane>
+            color="#829399"
+            material="shader: flat; opacity: 1"
+          ></a-plane>
 
           <a-text
             id="info"
             value="Selecciona un bloque"
-            position="0 -1.5 0.01"
+            position="0 -3 0.05"
             align="center"
-            width="4"
-            color="#ffffff"
-          >
-          </a-text>
+            width="5"
+            color="#D0F4EA"
+            material="shader: flat; opacity: 1"
+            scale="1.2 1.2 1.2"
+          ></a-text>
         </a-entity>
       </a-marker>
 
@@ -159,7 +137,7 @@
         limpiarConceptos();
         info.setAttribute("value", "Selecciona un concepto");
 
-        const radio = 1.2;
+        const radio = 2;
         const total = lista.length;
 
         lista.forEach((concepto, index) => {
@@ -172,7 +150,7 @@
           plano.setAttribute("width", "1");
           plano.setAttribute("height", "0.4");
           plano.setAttribute("color", "#111");
-          plano.setAttribute("opacity", "0.8");
+          plano.setAttribute("material", "shader: flat; opacity: 1");
           plano.setAttribute("class", "clickable concept-item");
 
           plano.addEventListener("click", function () {
@@ -185,7 +163,9 @@
           texto.setAttribute("align", "center");
           texto.setAttribute("width", "2.5");
           texto.setAttribute("color", "#00ffff");
-          texto.setAttribute("position", "0 0 0.01");
+          texto.setAttribute("position", "0 0 0.05"); // más separado del plano
+          texto.setAttribute("material", "shader: flat; opacity: 1");
+          texto.setAttribute("scale", "1.2 1.2 1.2"); // más grande
           texto.setAttribute("class", "concept-item");
 
           plano.appendChild(texto);
@@ -199,7 +179,7 @@
         regresar.setAttribute("width", "0.8");
         regresar.setAttribute("height", "0.4");
         regresar.setAttribute("color", "#ff4b5c");
-        regresar.setAttribute("opacity", "0.9");
+        regresar.setAttribute("material", "shader: flat; opacity: 1");
         regresar.setAttribute("class", "clickable concept-item");
 
         regresar.addEventListener("click", function () {
@@ -213,8 +193,10 @@
         textoRegresar.setAttribute("align", "center");
         textoRegresar.setAttribute("width", "2");
         textoRegresar.setAttribute("color", "#fff");
-        textoRegresar.setAttribute("position", "0 0 0.01");
         textoRegresar.setAttribute("class", "concept-item");
+        textoRegresar.setAttribute("material", "shader: flat; opacity: 1");
+        textoRegresar.setAttribute("position", "0 0 0.05");
+        textoRegresar.setAttribute("scale", "1.2 1.2 1.2");
 
         regresar.appendChild(textoRegresar);
         marker.appendChild(regresar);
